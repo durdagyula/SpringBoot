@@ -35,7 +35,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public List<User> remove(@PathVariable long id){
         userRepository.delete(id);
 
