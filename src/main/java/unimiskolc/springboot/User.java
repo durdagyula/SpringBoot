@@ -1,6 +1,17 @@
 package unimiskolc.springboot;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
+
     private String userName;
     private int userCredit;
     private boolean isAdmin;
@@ -23,6 +34,10 @@ public class User {
 
     public boolean isAdmin() {
         return isAdmin;
+    }
+
+    public long getId() {
+        return id;
     }
 
 }

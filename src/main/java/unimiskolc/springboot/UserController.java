@@ -1,5 +1,6 @@
 package unimiskolc.springboot;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,30 +10,35 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
-    private List<User> users;
 
-    public UserController(){
-        users = new ArrayList<>();
+    private UserRepository userRepository;
 
-        users.add(new User("Gyula",30, true));
-        users.add(new User("Maki", 29, false));
+    @Autowired
+    public UserController(UserRepository userRepository){
+        this.userRepository = userRepository;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<User> getAll(){
-        return users;
+        return userRepository.findAll();
     }
 
-    @RequestMapping(value = "/admin/{admin}", method = RequestMethod.GET)
-    public List<User> getAdmins(@PathVariable boolean admin){
-        return  users.stream().filter(x -> x.isAdmin() == admin)
-                .collect(Collectors.toList());
+    @RequestMapping(value = "/admin/", method = RequestMethod.GET)
+    public List<User> getAdmins(){
+        return  userRepository.findByisAdminTrue();
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public List<User> create(@RequestBody User user){
-        users.add(user);
+        userRepository.save(user);
 
-        return users;
+        return userRepository.findAll();
+    }
+
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+    public List<User> remove(@PathVariable long id){
+        userRepository.delete(id);
+
+        return  userRepository.findAll();
     }
 }
