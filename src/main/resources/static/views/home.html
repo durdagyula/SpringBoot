@@ -12,7 +12,7 @@
         <div class="btn-group" role="group" ng-show="currentUser.admin">
             <button ng-click="vm.getAll()" type="button" class="btn btn-default">List all</button>
             <button ng-click="vm.getAdmins()" type="button" class="btn btn-default">List admins</button>
-            <button type="button" class="btn btn-default" data-target="#addUserModal" data-toggle="modal">Add user</button>
+            <button type="button" class="btn btn-default" data-target="#addUserModal" data-toggle="modal" ng-click="vm.openModal()">Add user</button>
         </div>
 
 

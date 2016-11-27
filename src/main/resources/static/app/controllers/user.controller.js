@@ -19,6 +19,7 @@
         vm.addUser = addUser;
         vm.logout = logout;
         vm.login = login;
+        vm.openModal=openModal;
 
         init();
 
@@ -69,6 +70,10 @@
 
         function login() {
             $location.path('/login');
+        }
+        
+        function openModal() {
+            $scope.addUser = null;
         }
         
         function addUser(addUser) {

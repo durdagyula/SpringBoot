@@ -22,6 +22,10 @@
                 }
             })
         }
+        
+        $scope.openModal = function () {
+            $scope.newUser = null;
+        }
     });
 
 })();

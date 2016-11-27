@@ -20,7 +20,7 @@
             <label>Password</label>
             <input type="password" placeholder="password" id="inputPassword" class="form-control" required ng-model="user.psw">
         </div>
-        <button type="button" class="btn btn-default pull-left" data-target="#registerUser" data-toggle="modal">Create user</button>
+        <button type="button" class="btn btn-default pull-left" data-target="#registerUser" data-toggle="modal" ng-click="openModal()">Create user</button>
         <button id="loginSubmit" class="btn btn-primary pull-right" type="submit" ng-disabled="loginForm.$invalid" ng-click="login(user)">Submit</button>
     </form>
 
