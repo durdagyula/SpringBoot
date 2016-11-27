@@ -23,11 +23,11 @@ public class DatabaseSeeder  implements CommandLineRunner{
     public void run(String... strings) throws Exception {
         List<User> users = new ArrayList<>();
 
-        users.add(new User("Gyula", 30, true));
-        users.add(new User("Maki", 29, false));
-        users.add(new User("Krizsu", 31, true));
-        users.add(new User("Tamás", 1, false));
-        users.add(new User("Levi", 27, false));
+        users.add(new User("Gyula", 30, true, "admin"));
+        users.add(new User("Maki", 29, false, "pass"));
+        users.add(new User("Krizsu", 31, true, "pass"));
+        users.add(new User("Tamás", 1, false, "pass"));
+        users.add(new User("Levi", 27, false, "pass"));
 
         userRepository.save(users);
     }

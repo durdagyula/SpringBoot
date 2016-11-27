@@ -15,13 +15,15 @@ public class User {
     private String userName;
     private int userCredit;
     private boolean isAdmin;
+    private String userPassword;
 
     public User(){}
 
-    public User(String userName, int userCredit, boolean isAdmin) {
+    public User(String userName, int userCredit, boolean isAdmin, String userPassword) {
         this.userName = userName;
         this.userCredit = userCredit;
         this.isAdmin = isAdmin;
+        this.userPassword = userPassword;
     }
 
     public String getUserName() {
@@ -35,6 +37,8 @@ public class User {
     public boolean isAdmin() {
         return isAdmin;
     }
+
+    public String getUserPassword() { return userPassword; }
 
     public long getId() {
         return id;

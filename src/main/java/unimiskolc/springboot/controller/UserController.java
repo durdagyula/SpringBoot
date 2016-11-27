@@ -13,6 +13,8 @@ public class UserController {
 
     private UserRepository userRepository;
 
+    private User currentUser = null;
+
     @Autowired
     public UserController(UserRepository userRepository){
         this.userRepository = userRepository;
@@ -40,5 +42,37 @@ public class UserController {
         userRepository.delete(id);
 
         return  userRepository.findAll();
+    }
+
+    @RequestMapping(value = "/authenticate/{name}/{psw}", method = RequestMethod.POST)
+    public boolean authUser(@PathVariable String name,@PathVariable String psw){
+        List<User> users = userRepository.findAll();
+        User _user = new User();
+        boolean response = false;
+
+        for(int i = 0; i < users.size(); i++){
+            _user = users.get(i);
+            if((_user.getUserName().equals(name))&&(_user.getUserPassword().equals(psw))){
+                setUser(_user);
+                response = true;
+                break;
+            }
+        }
+
+        return response;
+    }
+
+    private void setUser(User user){
+        currentUser = user;
+    }
+    @RequestMapping(value = "/currentUser", method = RequestMethod.GET)
+    public User getCurrentUser(){
+        return currentUser;
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public User logout(){
+        currentUser = null;
+        return currentUser;
     }
 }

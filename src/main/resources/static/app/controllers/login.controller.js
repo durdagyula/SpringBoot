@@ -1,9 +1,10 @@
 (function () {
     'use strict';
 
-    angular.module('app').controller('LoginController',function ($scope) {
+    angular.module('app').controller('LoginController',function ($scope, LoginService) {
+        $scope.msgtext = '';
         $scope.login = function (user) {
-            console.log('enter function');
+           LoginService.login(user, $scope);
         }
     });
 
