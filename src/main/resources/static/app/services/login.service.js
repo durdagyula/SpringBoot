@@ -9,9 +9,8 @@
                     if(response.data){
                         $location.path('/home');
                     } else {
-                        scope.msgtext = 'Wrong username or password';
                         scope.msgsuccess = '';
-                        scope.msgerror = '';
+                        scope.msgerror = 'Wrong username or password';
                     }
                 });
             }

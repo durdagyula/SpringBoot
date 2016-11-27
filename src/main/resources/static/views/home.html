@@ -1,11 +1,4 @@
-<div ng-controller="UserController as vm" class="user-view">
-
-    <div class="user-is-not-authenticated" ng-show="!currentUser.userName">
-        <div class="error">
-            <p>Error message: not authenticated user!</p>
-        <button class="btn btn-default" ng-click="vm.login()">Go to login page!</button>
-        </div>
-    </div>
+<div ng-controller="UserController as vm" class="user-view" xmlns="http://www.w3.org/1999/html">
 
     <div class="user-authenticated" ng-show="currentUser.userName">
 
@@ -108,6 +101,13 @@
             <button class="btn btn-default" ng-click="vm.logout()">Logout</button>
         </div>
 
+    </div>
+
+    <div class="user-is-not-authenticated" ng-show="!currentUser.userName">
+        <div class="error">
+            <div class="alert-danger">Error message: not authenticated user!</div>
+            <button class="btn btn-default" ng-click="vm.login()">Go to login page!</button>
+        </div>
     </div>
 
 </div>

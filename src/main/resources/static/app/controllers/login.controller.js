@@ -2,7 +2,6 @@
     'use strict';
 
     angular.module('app').controller('LoginController',function ($http, $scope, LoginService) {
-        $scope.msgtext = '';
         $scope.msgsuccess = '';
         $scope.msgerror = '';
         $scope.login = function (user) {
@@ -24,6 +23,7 @@
         }
         
         $scope.openModal = function () {
+            $scope.msgtext = '';
             $scope.newUser = null;
         }
     });
