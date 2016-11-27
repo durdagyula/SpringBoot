@@ -31,8 +31,11 @@ tbody td{
     text-align: center;
     margin: auto;
     width: 300px;
-    color: #D8000C;
+}
+
+.error p{
     background-color: #FFBABA;
+    color: #D8000C;
 }
 
 .form-group .title{
@@ -41,4 +44,9 @@ tbody td{
     text-align: center;
     margin: auto;
     width: 300px;
+}
+
+.error-message{
+    color: #D8000C;
+    padding-left: 1px;
 }

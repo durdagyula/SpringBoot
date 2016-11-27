@@ -62,6 +62,29 @@ public class UserController {
         return response;
     }
 
+    @RequestMapping(value = "/add/{name}/{credits}/{password}", method = RequestMethod.POST)
+    public boolean addUser(@PathVariable String name,@PathVariable int credits, @PathVariable String password){
+        List<User> users = userRepository.findAll();
+        User _user = new User();
+        boolean response = true;
+
+        for(int i = 0; i < users.size(); i++){
+            _user = users.get(i);
+            if(_user.getUserName().equals(name)){
+                setUser(_user);
+                response = false;
+                break;
+            }
+        }
+
+        if(response) {
+            users.add(new User(name,credits,false,password));
+            userRepository.save(users);
+        }
+
+        return response;
+    }
+
     private void setUser(User user){
         currentUser = user;
     }

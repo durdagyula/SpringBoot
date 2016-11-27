@@ -10,11 +10,14 @@
 
         vm.users = [];
         $scope.currentUser = null;
+        $scope.message = '';
         vm.getAll = getAll;
         vm.getAdmins = getAdmins;
         vm.deleteUser = deleteUser;
         vm.getCurrentUser = getCurrentUser;
+        vm.addUser = addUser;
         vm.logout = logout;
+        vm.login = login;
 
         init();
 
@@ -61,6 +64,23 @@
                 $scope.currentUser = response.data;
                 $location.path('/login')
             });
+        }
+
+        function login() {
+            $location.path('/login');
+        }
+        
+        function addUser(addUser) {
+            var url = "/users/add/" + addUser.name + '/' + addUser.credits + '/' + addUser.password;
+            $http.post(url).then(function (response) {
+                if(response.data){
+                    $scope.message = 'success';
+                    getAll();
+                } else {
+                    $scope.message = 'fail';
+                }
+            });
+            
         }
     }
 })();

@@ -44,4 +44,19 @@ public class User {
         return id;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserCredit(int userCredit) {
+        this.userCredit = userCredit;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
 }
