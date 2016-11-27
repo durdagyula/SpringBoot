@@ -7,14 +7,14 @@
 
     function UserController($http){
         var vm = this;
-        
+
         vm.users = [];
         vm.getAll = getAll;
         vm.getAdmins = getAdmins;
         vm.deleteUser = deleteUser;
-        
+
         init();
-        
+
         function init() {
             getAll();
         }

@@ -1,0 +1,31 @@
+<div ng-controller="UserController as vm">
+<table class="table">
+    <thead>
+    <tr>
+        <th>User</th>
+        <th>Credits</th>
+        <th>Role</th>
+        <th style="width: 100px"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in vm.users">
+        <td>{{user.userName}}</td>
+        <td>{{user.userCredit}}</td>
+        <td>
+            <div ng-show="user.admin">Admin</div>
+            <div ng-show="!user.admin">User</div>
+        </td>
+        <td ng-show="user.admin">
+            <button class="btn btn-success" ng-click="">Edit</button>
+        </td>
+        <!--KISZEDNI!-->
+        <td ng-show="!user.admin">
+        </td>
+        <td>
+            <button class="btn btn-danger" ng-click="vm.deleteUser(user.id)">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>

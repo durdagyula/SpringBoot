@@ -1,4 +1,4 @@
-package unimiskolc.springboot;
+package unimiskolc.springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,6 @@ import java.util.Date;
 @Controller
 public class ViewController {
 
-    //@Value("${app-mode}") cunstructor injection jobb!
     private String appMode;
 
     @Autowired

@@ -1,64 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html ng-app="app" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Spring Boot App</title>
+    <title>Spring Boot Login</title>
+    <link rel="stylesheet" href="./css/main.css" />
     <link th:if="${mode == 'development'}" rel="stylesheet" href="../static/bootstrap.css" th:href="@{bootstrap.css}" />
     <link th:if="${mode == 'production'}" rel="stylesheet" href="../static/bootstrap.min.css" th:href="@{bootstrap.min.css}" />
-    <script type="text/javascript" src="/static/angular.min.js" th:src="@{/angular.min.js}"></script>
-    <script type="text/javascript" src="/static/app/app.module.js" th:src="@{/app/app.module.js}"></script>
-    <script type="text/javascript" src="/static/app/user.controller.js" th:src="@{/app/user.controller.js}"></script>
 </head>
-<body ng-app="app" ng-controller="UserController as vm">
-<header>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Spring Boot - MSC</a>
+
+<body>
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Spring Boot - MSC</a>
+                </div>
+                <p class="navbar-text navbar-right" th:text="'Signed in as ' + ${username}" style="margin-right: 10px;">Signed in as Anonymus</p>
             </div>
-            <p class="navbar-text navbar-right" th:text="'Signed in as ' + ${username}" style="margin-right: 10px;">Signed in as Anonymus</p>
+        </nav>
+    </header>
+
+    <div ng-view=""></div>
+
+    <footer class="footer" style="position: absolute; bottom:0;background-color: #f5f5f5;">
+        <div class="container">
+            <p class="text-muted" th:text="'Page was rendered ' + ${#dates.format(datetime, 'YYYY-MM-dd')}">Page was rendered today.</p>
         </div>
-    </nav>
-</header>
+    </footer>
 
-<div>
-    <div class="row">
-        <div class="col-lg-offset-2 col-lg-8">
-
-            <div class="btn-group" role="group">
-                <button ng-click="vm.getAll()" type="button" class="btn btn-default">List all</button>
-                <button ng-click="vm.getAdmins()" type="button" class="btn btn-default">List admins</button>
-            </div>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Credits</th>
-                    <th>Role</th>
-                    <th style="width: 90px"></th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="user in vm.users">
-                        <td>{{user.userName}}</td>
-                        <td>{{user.userCredit}}</td>
-                        <td>{{user.isAdmin}}</td>
-                        <td>
-                            <button class="btn btn-danger" ng-click="vm.deleteUser(user.id)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-</div>
-
-<footer class="footer" style="position: absolute; bottom:0;background-color: #f5f5f5;">
-    <div class="container">
-        <p class="text-muted" th:text="'Page was rendered ' + ${#dates.format(datetime, 'YYYY MM dd')}">Page was rendered today.</p>
-    </div>
-</footer>
+    <script type="text/javascript" src="/static/angular.min.js" th:src="@{/angular.min.js}"></script>
+    <script type="text/javascript" src="/static/angular-cookies.min.js" th:src="@{/angular-cookies.min.js}"></script>
+    <script type="text/javascript" src="/static/angular-route.min.js" th:src="@{/angular-route.min.js}"></script>
+    <script type="text/javascript" src="/static/app/app.js" th:src="@{/app/app.js}"></script>
+    <script type="text/javascript" src="/static/app/controllers/user.controller.js" th:src="@{/app/controllers/user.controller.js}"></script>
+    <script type="text/javascript" src="/static/app/controllers/login.controller.js" th:src="@{/app/controllers/login.controller.js}"></script>
 </body>
+
 </html>

@@ -1,11 +1,11 @@
-package unimiskolc.springboot;
+package unimiskolc.springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import unimiskolc.springboot.model.User;
+import unimiskolc.springboot.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -23,7 +23,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @RequestMapping(value = "/admin/", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public List<User> getAdmins(){
         return  userRepository.findByisAdminTrue();
     }

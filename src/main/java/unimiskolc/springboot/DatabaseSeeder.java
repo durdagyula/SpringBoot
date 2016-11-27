@@ -4,6 +4,8 @@ package unimiskolc.springboot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import unimiskolc.springboot.model.User;
+import unimiskolc.springboot.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +23,9 @@ public class DatabaseSeeder  implements CommandLineRunner{
     public void run(String... strings) throws Exception {
         List<User> users = new ArrayList<>();
 
-        users.add(new User("Gyula",30, true));
+        users.add(new User("Gyula", 30, true));
         users.add(new User("Maki", 29, false));
-        users.add(new User("Krizsu", 31, false));
+        users.add(new User("Krizsu", 31, true));
         users.add(new User("Tamás", 1, false));
         users.add(new User("Levi", 27, false));
 
