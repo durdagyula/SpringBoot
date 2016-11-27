@@ -10,7 +10,8 @@
 
         vm.users = [];
         $scope.currentUser = null;
-        $scope.message = '';
+        $scope.successmsg = '';
+        $scope.errormsg = '';
         vm.getAll = getAll;
         vm.getAdmins = getAdmins;
         vm.deleteUser = deleteUser;
@@ -71,13 +72,15 @@
         }
         
         function addUser(addUser) {
-            var url = "/users/add/" + addUser.name + '/' + addUser.credits + '/' + addUser.password;
+            $scope.successmsg='';
+            $scope.errormsg='';
+            var url = "/users/add/" + addUser.name + '/' + addUser.credits + '/' + addUser.password + '/' + addUser.isAdmin;
             $http.post(url).then(function (response) {
                 if(response.data){
-                    $scope.message = 'success';
                     getAll();
+                    $scope.successmsg = 'User added successfully!';
                 } else {
-                    $scope.message = 'fail';
+                    $scope.errormsg = 'User name is reserved!';
                 }
             });
             

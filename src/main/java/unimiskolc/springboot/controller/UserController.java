@@ -62,8 +62,8 @@ public class UserController {
         return response;
     }
 
-    @RequestMapping(value = "/add/{name}/{credits}/{password}", method = RequestMethod.POST)
-    public boolean addUser(@PathVariable String name,@PathVariable int credits, @PathVariable String password){
+    @RequestMapping(value = "/add/{name}/{credits}/{password}/{isAdmin}", method = RequestMethod.POST)
+    public boolean addUser(@PathVariable String name,@PathVariable int credits, @PathVariable String password, @PathVariable boolean isAdmin){
         List<User> users = userRepository.findAll();
         User _user = new User();
         boolean response = true;
@@ -78,7 +78,7 @@ public class UserController {
         }
 
         if(response) {
-            users.add(new User(name,credits,false,password));
+            users.add(new User(name,credits,isAdmin,password));
             userRepository.save(users);
         }
 
