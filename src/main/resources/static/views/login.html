@@ -47,6 +47,11 @@
                             <label>Password</label>
                             <input name="password" type="password" placeholder="Password" class="form-control" required ng-model="newUser.password" required>
                         </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input name="email" type="email" placeholder="Email" class="form-control" required ng-model="newUser.email" required>
+                            <p class="error-message" ng-if="registerUser.email.$invalid && !registerUser.email.$pristine">Invalid email</p>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">

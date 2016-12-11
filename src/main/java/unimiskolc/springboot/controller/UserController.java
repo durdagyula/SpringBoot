@@ -1,10 +1,15 @@
 package unimiskolc.springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.JavaUtilZipFileAccess;
+import unimiskolc.springboot.SmtpMailSender;
 import unimiskolc.springboot.model.User;
 import unimiskolc.springboot.repository.UserRepository;
+import unimiskolc.springboot.service.EmailService;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -12,7 +17,8 @@ import java.util.List;
 public class UserController {
 
     private UserRepository userRepository;
-
+    @Autowired
+    private EmailService emailService;
     private User currentUser = null;
 
     @Autowired
@@ -85,8 +91,45 @@ public class UserController {
         return response;
     }
 
-    @RequestMapping(value = "/register/{name}/{credits}/{password}", method = RequestMethod.POST)
-    public boolean registerUser(@PathVariable String name,@PathVariable int credits, @PathVariable String password){
+    @RequestMapping(value = "/edit/{name}/{credits}/{isAdmin}/{selectedUser}", method = RequestMethod.POST)
+    public boolean addUser(@PathVariable String name,@PathVariable int credits, @PathVariable boolean isAdmin, @PathVariable String selectedUser){
+        List<User> users = userRepository.findAll();
+        boolean response = true;
+        int count = 0;
+
+        for(int i = 0; i < users.size(); i++){
+            if(users.get(i).getUserName().equals(name) ){
+                count++;
+            }
+            if(users.get(i).getUserName().equals(selectedUser) ){
+                count++;
+            }
+        }
+
+        if(count>1){
+            return false;
+        }
+
+        for(int i = 0; i < users.size(); i++){
+            if(users.get(i).getUserName().equals(selectedUser) ){
+                users.get(i).setUserName(name);
+                users.get(i).setUserCredit(credits);
+                users.get(i).setAdmin(isAdmin);
+                response = true;
+                break;
+            }
+            response = false;
+        }
+
+        if(response) {
+            userRepository.save(users);
+        }
+
+        return response;
+    }
+
+    @RequestMapping(value = "/register/{name}/{credits}/{email}/{password}", method = RequestMethod.POST)
+    public boolean registerUser(@PathVariable String name,@PathVariable int credits, @PathVariable String password, @PathVariable String email) throws MessagingException{
         List<User> users = userRepository.findAll();
         User _user = new User();
         boolean response = true;
@@ -101,11 +144,23 @@ public class UserController {
         }
 
         if(response) {
-            users.add(new User(name,credits,false,password));
+            User newUser = new User(name,credits,false,password);
+            users.add(newUser);
             userRepository.save(users);
+            try {
+                this.emailService.sendEmail(newUser,email);
+            }catch (MailException e){
+
+            }
         }
 
         return response;
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public User logout(){
+        currentUser = null;
+        return currentUser;
     }
 
     private void setUser(User user){
@@ -113,12 +168,6 @@ public class UserController {
     }
     @RequestMapping(value = "/currentUser", method = RequestMethod.GET)
     public User getCurrentUser(){
-        return currentUser;
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public User logout(){
-        currentUser = null;
         return currentUser;
     }
 }

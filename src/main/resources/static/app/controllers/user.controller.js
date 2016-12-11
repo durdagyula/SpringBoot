@@ -17,9 +17,11 @@
         vm.deleteUser = deleteUser;
         vm.getCurrentUser = getCurrentUser;
         vm.addUser = addUser;
+        vm.editUser = editUser;
         vm.logout = logout;
         vm.login = login;
-        vm.openModal=openModal;
+        vm.openModal = openModal;
+        vm.editModal = editModal;
 
         init();
 
@@ -75,7 +77,12 @@
         function openModal() {
             $scope.addUser = null;
         }
-        
+
+        function editModal(user) {
+            $scope.editUser = null;
+            $scope.selectedUser = user;
+        }
+
         function addUser(addUser) {
             $scope.successmsg='';
             $scope.errormsg='';
@@ -89,6 +96,24 @@
                 }
             });
             
+        }
+
+        function editUser(editUser) {
+            $scope.successmsg='';
+            $scope.errormsg='';
+            if(typeof editUser.isAdmin == "undefined" || !$scope.selectedUser.isAdmin){
+                editUser.isAdmin = false;
+            }
+            var url = "/users/edit/" + editUser.name + '/' + editUser.credits + '/' + editUser.isAdmin + '/' + $scope.selectedUser.userName;
+            $http.post(url).then(function (response) {
+                if(response.data){
+                    getAll();
+                    $scope.successmsg = 'User edited successfully!';
+                } else {
+                    $scope.errormsg = 'User name is reserved!';
+                }
+            });
+
         }
     }
 })();

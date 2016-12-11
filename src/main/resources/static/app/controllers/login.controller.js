@@ -10,7 +10,7 @@
         }
 
         $scope.register = function (newUser) {
-            var url = "/users/register/" + newUser.name + '/' + newUser.credits + '/' + newUser.password;
+            var url = "/users/register/" + newUser.name + '/' + newUser.credits + '/' + newUser.email + '/' + newUser.password;
             var userPromise = $http.post(url)
             $scope.msgsuccess = '';
             $scope.msgerror = '';
