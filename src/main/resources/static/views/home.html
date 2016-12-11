@@ -108,12 +108,12 @@
 
                             <div class="form-group">
                                 <label>UserName</label>
-                                <input name="username" type="text" placeholder="username" class="form-control" ng-model="editUser.name" required>
+                                <input name="username" type="text" placeholder="{{selectedUser.userName}}" class="form-control" ng-model="editUser.name" required>
                             </div>
 
                             <div class="form-group" ng-class="{ 'has-error' : editUserForm.credits.$invalid && !editUserForm.credits.$pristine }">
                                 <label>Credits</label>
-                                <input name="credits" type="number" placeholder="credits" class="form-control" ng-model="editUser.credits" min="0" required>
+                                <input name="credits" type="number" placeholder="{{selectedUser.userCredit}}" class="form-control" ng-model="editUser.credits" min="0" required>
                                 <p class="error-message" ng-if="editUserForm.credits.$invalid && !editUserForm.credits.$pristine">min value is 0</p>
                             </div>
 
