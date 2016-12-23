@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+	http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+	http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+	http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--get files from folder-->
+    <int:channel id="inboundChannel"/>
+
+    <int-file:inbound-channel-adapter id="producer-file-adapter"
+                                      channel="inboundChannel" directory="file:src/main/resources/files/inbound"
+                                      prevent-duplicates="true">
+        <int:poller fixed-rate="5000"/>
+    </int-file:inbound-channel-adapter>
+
+    <!--filter for JSON files-->
+    <int:filter input-channel="inboundChannel" output-channel="jsonTransformChannel"
+                ref="selector"/>
+    <bean id="selector" class="unimiskolc.springboot.integration.JsonFilter"/>
+
+    <int:channel id="jsonTransformChannel"/>
+
+    <!--transform jsons to User objects-->
+    <int:json-to-object-transformer input-channel="jsonTransformChannel"
+                                    output-channel="enrichChannel"
+                                    type="unimiskolc.springboot.model.User"/>
+
+    <!--add default password if missing, and hash passwords-->
+    <int:channel id="enrichChannel"/>
+
+    <int:enricher id="user-enricher" input-channel="enrichChannel"
+                  output-channel="routingChannel" request-channel="userEnricherChannel">
+        <int:property name="userPassword" expression="payload"/>
+    </int:enricher>
+    <int:channel id="userEnricherChannel"/>
+    <int:service-activator id="enriching-service-activator"
+                           ref="userEnricher" input-channel="userEnricherChannel"/>
+
+    <bean id="userEnricher" class="unimiskolc.springboot.integration.UserEnricher"/>
+
+    <!--route User objects to store and write out to output file-->
+    <int:channel id="routingChannel"/>
+
+    <int:recipient-list-router id="userRouter" input-channel="routingChannel"
+                               timeout="5000"
+                               ignore-send-failures="true"
+                               apply-sequence="true">
+        <int:recipient channel="storingChannel"/>
+        <int:recipient channel="outputFileChannel"/>
+    </int:recipient-list-router>
+
+    <!--store Users in repository-->
+    <int:channel id="storingChannel"/>
+
+    <int:gateway id="storeService" service-interface="unimiskolc.springboot.integration.StoreUser"
+                 default-request-channel="storingChannel" default-reply-channel="replyChannel"/>
+
+    <int:transformer input-channel="storingChannel"
+                     output-channel="replyChannel" ref="storeInDB"/>
+    <bean id="storeInDB" class="unimiskolc.springboot.integration.StoreInDB"/>
+
+    <int:channel id="replyChannel"/>
+
+
+    <!--write out stored Users to output folder-->
+    <int:object-to-string-transformer input-channel="routingChannel"
+                                      output-channel="outputFileChannel"/>
+
+
+    <int:channel id="outputFileChannel"/>
+
+    <int-file:outbound-channel-adapter
+            channel="outputFileChannel" id="consumer-file-adapter" directory="file:src/main/resources/files/outbound"/>
+
+</beans>

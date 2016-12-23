@@ -2,20 +2,22 @@ package unimiskolc.springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.JavaUtilZipFileAccess;
-import unimiskolc.springboot.SmtpMailSender;
 import unimiskolc.springboot.model.User;
 import unimiskolc.springboot.repository.UserRepository;
 import unimiskolc.springboot.service.EmailService;
 
 import javax.mail.MessagingException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
 
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private EmailService emailService;
@@ -147,6 +149,7 @@ public class UserController {
             User newUser = new User(name,credits,false,password);
             users.add(newUser);
             userRepository.save(users);
+            Message<User> message = MessageBuilder.withPayload(newUser).setHeader("Header", LocalDateTime.now()).build();
             try {
                 this.emailService.sendEmail(newUser,email);
             }catch (MailException e){
@@ -169,5 +172,9 @@ public class UserController {
     @RequestMapping(value = "/currentUser", method = RequestMethod.GET)
     public User getCurrentUser(){
         return currentUser;
+    }
+
+    public void fasz(){
+        String fasz = "fasz";
     }
 }

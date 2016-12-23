@@ -6,7 +6,7 @@
 
 (function () {
     'use strict';
-    angular.module('app', ['ngRoute'])
+    angular.module('app', ['ngRoute', 'ngMaterial'])
         .config(function ($routeProvider) {
             $routeProvider
                 .when('/login', {

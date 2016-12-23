@@ -17,13 +17,13 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendEmail(User user, String email) throws MailException{
+    public void sendEmail(User user, String email) throws MailException {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(email);
         mail.setFrom("mscpringboot@gmail.com");
         mail.setSubject("Registration");
         mail.setText("Hi, you successfully registered yourself on my webpage." +
-                "Your username: "+ user.getUserName() + " " +
+                "Your username: " + user.getUserName() + " " +
                 "and your password: " + user.getUserPassword());
         javaMailSender.send(mail);
     }

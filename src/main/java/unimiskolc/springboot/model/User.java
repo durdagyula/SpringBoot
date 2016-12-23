@@ -17,7 +17,8 @@ public class User {
     private boolean isAdmin;
     private String userPassword;
 
-    public User(){}
+    public User() {
+    }
 
     public User(String userName, int userCredit, boolean isAdmin, String userPassword) {
         this.userName = userName;
@@ -38,7 +39,9 @@ public class User {
         return isAdmin;
     }
 
-    public String getUserPassword() { return userPassword; }
+    public String getUserPassword() {
+        return userPassword;
+    }
 
     public long getId() {
         return id;
@@ -58,5 +61,10 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return userName + "-" + userPassword + "-" + isAdmin + "-" + userCredit;
     }
 }
